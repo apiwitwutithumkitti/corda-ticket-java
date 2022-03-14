@@ -1,5 +1,6 @@
 package com.template.flows;
 
+import co.paralleluniverse.fibers.Suspendable;
 import com.template.contracts.TicketContract;
 import com.template.contracts.TicketContract.Commands.Transfer;
 import com.template.states.TicketState;
@@ -23,7 +24,7 @@ import java.util.List;
 
 import static net.corda.core.contracts.ContractsDSL.requireThat;
 
-public interface TransferFlow {
+public interface TransferFlows {
 
     @InitiatingFlow
     @StartableByRPC
@@ -66,6 +67,7 @@ public interface TransferFlow {
             this.progressTracker = tracker();
         }
 
+        @Suspendable
         @Override
         public SignedTransaction call() throws FlowException {
             progressTracker.setCurrentStep(GENERATING_TRANSACTION);
@@ -147,6 +149,7 @@ public interface TransferFlow {
             this.progressTracker = progressTracker;
         }
 
+        @Suspendable
         @Override
         public SignedTransaction call() throws FlowException {
             progressTracker.setCurrentStep(SIGNING_TRANSACTION);

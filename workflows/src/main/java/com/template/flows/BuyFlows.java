@@ -1,5 +1,6 @@
 package com.template.flows;
 
+import co.paralleluniverse.fibers.Suspendable;
 import com.template.contracts.TicketContract;
 import com.template.contracts.TicketContract.Commands.Buy;
 import com.template.states.TicketState;
@@ -21,7 +22,7 @@ public interface BuyFlows {
 
     @InitiatingFlow
     @StartableByRPC
-    class Initiator extends FlowLogic<SignedTransaction> {
+    class BuyInitiator extends FlowLogic<SignedTransaction> {
 
         @NotNull
         private final Party spectator;
@@ -46,7 +47,7 @@ public interface BuyFlows {
             return new ProgressTracker(GENERATING_TRANSACTION, VERIFYING_TRANSACTION, SIGNING_TRANSACTION, FINALISING_TRANSACTION);
         }
 
-        public Initiator(@NotNull Party spectator, int section) {
+        public BuyInitiator(@NotNull Party spectator, int section) {
             this.spectator = spectator;
             this.section = section;
             this.progressTracker = tracker();
@@ -58,6 +59,7 @@ public interface BuyFlows {
             return progressTracker;
         }
 
+        @Suspendable
         @Override
         public SignedTransaction call() throws FlowException {
            final Party issuer = getOurIdentity();
@@ -89,16 +91,17 @@ public interface BuyFlows {
         }
     }
 
-    @InitiatedBy(Initiator.class)
-    class Responder extends FlowLogic<SignedTransaction> {
+    @InitiatedBy(BuyInitiator.class)
+    class BuyResponder extends FlowLogic<SignedTransaction> {
 
         @NotNull
         private final FlowSession InitiatorSession;
 
-        public Responder(@NotNull FlowSession initiatorSession) {
+        public BuyResponder(@NotNull FlowSession initiatorSession) {
             InitiatorSession = initiatorSession;
         }
 
+        @Suspendable
         @Override
         public SignedTransaction call() throws FlowException {
             return subFlow(new ReceiveFinalityFlow(InitiatorSession));
