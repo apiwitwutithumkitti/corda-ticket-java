@@ -1,5 +1,6 @@
 package com.template.states;
 
+import com.template.contracts.TicketContract;
 import org.jetbrains.annotations.NotNull;
 import net.corda.core.contracts.BelongsToContract;
 import net.corda.core.contracts.LinearState;
