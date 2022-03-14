@@ -17,10 +17,10 @@ import static net.corda.core.contracts.ContractsDSL.requireThat;
 
 public class TicketContract implements Contract {
 
+    public static final String ID = "com.template.contracts.TicketContract";
+
     @Override
     public void verify(@NotNull LedgerTransaction tx) throws IllegalArgumentException {
-
-        public static final String ID = "com.template.contracts.TicketContract";
 
         final CommandWithParties<Commands> commandParty = requireSingleCommand(tx.getCommands(), Commands.class);
         final List<TicketState> inputs = tx.inputsOfType(TicketState.class);
