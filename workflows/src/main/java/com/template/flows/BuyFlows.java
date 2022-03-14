@@ -1,3 +1,5 @@
+package com.template.flows;
+
 import com.template.contracts.TicketContract;
 import com.template.contracts.TicketContract.Commands.Buy;
 import com.template.states.TicketState;
