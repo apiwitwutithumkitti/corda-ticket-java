@@ -32,7 +32,7 @@ public interface BuyFlows {
         private final ProgressTracker progressTracker;
         private final static Step GENERATING_TRANSACTION = new Step("Generating transaction based on parameters.");
         private final static Step VERIFYING_TRANSACTION = new Step("Verifying contract constraints.");
-        private final static Step SIGNING_TRANSACTION = new Step("Signing transaction without private key.");
+        private final static Step SIGNING_TRANSACTION = new Step("Signing transaction with our private key.");
         private final static Step FINALISING_TRANSACTION = new Step(
                 "Obtaining notary signature and recording transaction"){
             @Override
