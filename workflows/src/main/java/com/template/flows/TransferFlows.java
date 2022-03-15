@@ -71,8 +71,8 @@ public interface TransferFlows {
         @Override
         public SignedTransaction call() throws FlowException {
             progressTracker.setCurrentStep(GENERATING_TRANSACTION);
-            final QueryCriteria assetCriteria = new QueryCriteria.LinearStateQueryCriteria().withUuid(
-                    Collections.singletonList(linearId.getId())
+            final QueryCriteria assetCriteria = new QueryCriteria.LinearStateQueryCriteria()
+                    .withUuid(Collections.singletonList(linearId.getId())
             );
             final List<StateAndRef<TicketState>> asset = getServiceHub()
                     .getVaultService()
@@ -80,10 +80,12 @@ public interface TransferFlows {
             final StateAndRef<TicketState> inputState = asset.get(0);
 
             final Party notary = inputState.getState().getNotary();
+
             final Party inputIssuer = inputState.getState().getData().getIssuer();
             final Party oldOwner = inputState.getState().getData().getSpectator();
             final int inputSection = inputState.getState().getData().getSection();
             final UniqueIdentifier conservedLinearId = inputState.getState().getData().getLinearId();
+
             final TicketState outputState = new TicketState(inputIssuer, this.newOwner, inputSection, conservedLinearId);
             final Command<Transfer> commandTransfer = new Command<>(new Transfer()
                     , Arrays.asList(oldOwner.getOwningKey(), this.newOwner.getOwningKey()));

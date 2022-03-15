@@ -130,7 +130,16 @@ public interface ExitFlows {
             }
         };
 
-        public ExitResponder(@NotNull FlowSession otherOwnerSession, @NotNull ProgressTracker progressTracker) {
+        @NotNull
+        public static ProgressTracker tracker(){
+            return new ProgressTracker(SIGNING_TRANSACTION, FINALISING_TRANSACTION);
+        }
+
+        public ExitResponder(@NotNull final FlowSession otherOwnerSession) {
+           this (otherOwnerSession, tracker());
+        }
+
+        public ExitResponder(@NotNull final FlowSession otherOwnerSession, @NotNull final ProgressTracker progressTracker) {
             this.otherOwnerSession = otherOwnerSession;
             this.progressTracker = progressTracker;
         }

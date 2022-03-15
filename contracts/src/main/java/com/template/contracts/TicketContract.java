@@ -54,9 +54,9 @@ public class TicketContract implements Contract {
                 req.using("Section has to be conserved in the transfer"
                         , input.getSection() == output.getSection());
                 req.using("Linear Id has to be conserved in the transfer"
-                        , input.getLinearId() == output.getLinearId());
+                        , input.getLinearId().equals(output.getLinearId()));
                 List<Party> signers = Arrays.asList(input.getSpectator(), output.getSpectator());
-                req.using("input's spectator and output's specator have to signed"
+                req.using("input's spectator and output's spectator have to signed"
                         , commandParty.getSigners().containsAll(signers
                                 .stream()
                                 .map(it -> it.getOwningKey()).collect(Collectors.toSet()))
